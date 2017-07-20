@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Layout for a single list item in the list of pets -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:gravity="center_vertical"
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    android:background="@drawable/touch_selector"
+    android:padding="16dp"    >
+
+    <TextView
+        android:id="@+id/image_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/magnitude_circle"
+        android:gravity="center"
+        android:text="G"
+        android:textColor="@android:color/white"
+        android:textSize="36sp" />
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:orientation="vertical"
+        android:paddingLeft="16dp">
+        <TextView
+            android:id="@+id/regional_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Regional's Name"/>
+
+        <TextView
+            android:id="@+id/edit_directional"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Directionals"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:paddingLeft="16dp">
+
+    <TextView
+        android:id="@+id/basic_needs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        tools:text="Ladies"/>
+
+        <TextView
+            android:id="@+id/status_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            tools:text="winner"/>
+    </LinearLayout>
+
+</LinearLayout>
