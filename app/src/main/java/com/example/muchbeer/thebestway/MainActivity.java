@@ -3,8 +3,11 @@ package com.example.muchbeer.thebestway;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +23,8 @@ import com.android.volley.toolbox.StringRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -34,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     private SessionManager session;
     private CollectDbHelper db;
+
+   private String handshake = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Session manager
         session = new SessionManager(getApplicationContext());
+
+
 
         // Check if user is already logged in or not
         /*if (session.isLoggedIn()) {
@@ -219,7 +228,6 @@ public class MainActivity extends AppCompatActivity {
 
         JSONObject parentData = new JSONObject();
         JSONObject childData = new JSONObject();
-
         jsonObject.put("userName", email);
         jsonObject.put("passWord", password);
         jsonObject.put("Action", "routeController");
@@ -233,6 +241,8 @@ public class MainActivity extends AppCompatActivity {
         jsonObject.put("userBrowser", "chrome");
 
         String uInputs = jsonObject.toString();
+       // handshake = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3d3cuYWlvdWkuY28udHoiLCJleHAiOjEzMDA4MTkzODAsInVpU3RhdGUiOnsiZnVsbE5hbWUiOiJXZWJieXN0YXIgTi4gTW56YXZhIiwidXNlclBpYyI6Ik1hbGUuZ2lmIiwidXNlckJpcnRoZGF0ZSI6IjIwMTctMDItMDYiLCJ1c2VyR2VuZGVyIjoiTWFsZSIsInBob25lTnVtYmVyIjoiMjU1NzE1MDE1NzU5IiwidXNlclN0YXRlIjoxLCJ1c2VyRGF0ZWQiOiIyMDE3LTA1LTA2IDAwOjUyOjIzIiwicGFzc1dvcmRTZWN1cmVkIjp0cnVlLCJvbmxpbmVTdGF0ZSI6MSwiZGl2TmFtZSI6IkFJTyAtIEhRIiwiZGl2U3RhdGUiOjEsImRvbWFpblN0YXRlIjoxLCJpZENvbXBhbnkiOjEsImNvbXBOYW1lIjoiQUlPVUkiLCJjb21wTG9nbyI6ImRlZmF1bHQuanBnIiwiY29tcFN0YXRlIjoxLCJyb2xlTmFtZSI6IlN5c3RlbSBUZWNobmljaWFucyIsInVpUm9sZVN0YXRlIjoidGVjaFN0YXRlIiwicm9sZVN0YXRlIjoxLCJjb21wbG9jYXRpb24iOiJBcnVzaGEsIFRhbnphbmlhLCBVbml0ZWQgUmVwdWJsaWMgb2YiLCJzZWNCbG9jayI6IjkiLCJzZWNTY29wZSI6MSwic2VjU3BhbiI6MSwiaXNBdXRoZW50aWNhdGVkIjp0cnVlfX0.GNcYTBsUN48q4i8bMCfqesLSzvAUVzPFp4A8_3AwzRM";
+
         Log.i("Check object " , uInputs);
         Log.i("MainActivity","Check object without stingfy" +jsonObject);
 
@@ -261,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 Log.d(TAG, "Login Response: " + response.toString());
                 hideDialog();
-
+                handshake = response.toString();
 
                 try {
 
@@ -317,10 +327,60 @@ public class MainActivity extends AppCompatActivity {
                 return params;
             }
 
+            JSONObject headerVariables = new JSONObject();
+
+
+           // String testValue = "Hello, world!";
+
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("ui-Header", uiHeader);
+
+
+
+                if(handshake !=null ) {
+
+                    try {
+                        headerVariables.put("authName", "SALESFORCE");
+                        headerVariables.put("authToken", "c533b98ca83536d406d08c6896c6a542");
+                        headerVariables.put("handShake", handshake);
+
+                       String headerContainer = headerVariables.toString();
+
+                        //byte[] encodeValue = Base64.encode(headerContainer.getBytes(), "UTF-8");
+
+                        byte[] data = headerContainer.getBytes(StandardCharsets.UTF_8);
+                        String headerContainerWithThree = Base64.encodeToString(data, Base64.NO_WRAP);
+
+                        //uIHeader must be incoded to base64 after we have the object combine authName and authToken
+                        headers.put("ui-Header", headerContainerWithThree);
+                        Log.i("MainActivity", "Encode uiHeader with all three "+ headerContainerWithThree);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                } else if(handshake == null) {
+                    try {
+                        headerVariables.put("authName", "SALESFORCE");
+                        headerVariables.put("authToken", "c533b98ca83536d406d08c6896c6a542");
+
+                        String headerContainerWithoutHS = headerVariables.toString();
+                        //uIHeader must be incoded to base64 after we have the object combine authName and authToken
+                        byte[] encodeValueWHS = Base64.encode(headerContainerWithoutHS.getBytes(), Base64.DEFAULT);
+
+                        headers.put("ui-Header", headerContainerWithoutHS);
+                        Log.i("MainActivity", "Encode uiHeader with only "+ headerContainerWithoutHS);
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+
                 //  headers.put("Content-Type", jsonApplication);
 
                 return headers;
