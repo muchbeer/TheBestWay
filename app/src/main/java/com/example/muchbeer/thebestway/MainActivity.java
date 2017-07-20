@@ -232,9 +232,9 @@ public class MainActivity extends AppCompatActivity {
         jsonObject.put("userAgent", "gadiel");
         jsonObject.put("userBrowser", "chrome");
 
-
         String uInputs = jsonObject.toString();
         Log.i("Check object " , uInputs);
+        Log.i("MainActivity","Check object without stingfy" +jsonObject);
 
         // conn.setFixedLengthStreamingMode(uInputs.getBytes().length);
         // JSONArray jsonArray = new JSONArray();
@@ -242,9 +242,7 @@ public class MainActivity extends AppCompatActivity {
         // jsonArray.put(jsonObject);
 
         // JSONObject nowThisSendRealObject = new JSONObject();
-        parentData.put("uInputs", jsonObject);
-
-        final String finalObject = parentData.toString();
+         final String finalObject = uInputs;
         Log.i("LoginActivity ", "Now ready to check connection for uInputs: " + finalObject);
 
 
