@@ -19,7 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SuccessPage"></activity>
+        <activity android:name=".SuccessPage" />
+        <activity android:name=".retrieve.RetrieveData"></activity>
     </application>
 
 </manifest>
