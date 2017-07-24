@@ -54,7 +54,7 @@ public class RetrieveData extends AppCompatActivity {
             @Override
             public void onClick(View view, int position) {
                 ItemPojo itemProductSelect = itemProduct.get(position);
-                Toast.makeText(getApplicationContext(), itemProductSelect.getItemName() + " is selected!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), itemProductSelect.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -64,11 +64,10 @@ public class RetrieveData extends AppCompatActivity {
         }));
         prepareMovieData();
 
-
     }
 
     private void prepareMovieData() {
-        ItemPojo itemProductAdd = new ItemPojo("Mad Max: Fury Road", "Action & Adventure", "2015");
+       /* ItemPojo itemProductAdd = new ItemPojo("Mad Max: Fury Road", "Action & Adventure", "2015");
         itemProduct.add(itemProductAdd);
 
         itemProductAdd = new ItemPojo("Inside Out", "Animation, Kids & Family", "2015");
@@ -78,9 +77,9 @@ public class RetrieveData extends AppCompatActivity {
         itemProduct.add(itemProductAdd);
 
         itemProductAdd = new ItemPojo("Shaun the Sheep", "Animation", "2015");
-        itemProduct.add(itemProductAdd);
+        itemProduct.add(itemProductAdd);*/
 
-        Log.i("Retrieve", itemProductAdd.toString());
+      //  Log.i("Retrieve", itemProductAdd.toString());
         mAdapter.notifyDataSetChanged();
     }
 

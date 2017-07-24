@@ -3,6 +3,7 @@
     package="com.example.muchbeer.thebestway">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name=".AppController"
@@ -20,7 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".SuccessPage" />
-        <activity android:name=".retrieve.RetrieveData"></activity>
+        <activity android:name=".retrieve.RetrieveData" />
+        <activity android:name=".retrieve.RetrieveImage"></activity>
     </application>
 
 </manifest>

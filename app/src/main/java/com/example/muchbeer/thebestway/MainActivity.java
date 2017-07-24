@@ -1,13 +1,19 @@
 package com.example.muchbeer.thebestway;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
@@ -23,6 +29,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.muchbeer.thebestway.retrieve.RetrieveData;
+import com.example.muchbeer.thebestway.retrieve.RetrieveImage;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
 
    private String handshake = null;
 
+    String IMEI_Number_Holder;
+    TelephonyManager telephonyManager;
+    public static final int MY_PERMISSIONS_REQUEST_READ_PHONE_STATE = 999;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +65,29 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
          setSupportActionBar(toolbar);
 
+        telephonyManager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
+
+        // Should we show an explanation?
+        if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                Manifest.permission.READ_PHONE_STATE)) {
+
+            // Show an explanation to the user *asynchronously* -- don't block
+            // this thread waiting for the user's response! After the user
+            // sees the explanation, try again to request the permission.
+
+        } else {
+
+            // No explanation needed, we can request the permission.
+
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{Manifest.permission.READ_PHONE_STATE},
+
+                    MY_PERMISSIONS_REQUEST_READ_PHONE_STATE);
+
+            // MY_PERMISSIONS_REQUEST_READ_PHONE_STATE is an
+            // app-defined int constant. The callback method gets the
+            // result of the request.
+        }
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
         btnLogin = (Button) findViewById(R.id.btnLogin);
@@ -134,6 +167,36 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void checkPermission() {
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.READ_PHONE_STATE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                    Manifest.permission.READ_PHONE_STATE)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.READ_PHONE_STATE},
+                        MY_PERMISSIONS_REQUEST_READ_PHONE_STATE);
+
+                // MY_PERMISSIONS_REQUEST_READ_PHONE_STATE is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+    }
+
     private void checkHeaderLogin(final String uiHeader, final String jsonApplication,
                                   final String email, final String password) {
         // Tag used to cancel the request
@@ -232,10 +295,13 @@ public class MainActivity extends AppCompatActivity {
             final String uiHeader,
             final String email, final String password) throws JSONException {
 
+        String IMEINumber=telephonyManager.getDeviceId();
+        String SIMSerialNumber=telephonyManager.getSimSerialNumber();
+        String softwareVersion=telephonyManager.getDeviceSoftwareVersion();
+        String deviceName = android.os.Build.MODEL;
+
         JSONObject jsonObject = new JSONObject();
 
-        JSONObject parentData = new JSONObject();
-        JSONObject childData = new JSONObject();
         jsonObject.put("userName", email);
         jsonObject.put("passWord", password);
         jsonObject.put("Action", "routeController");
@@ -243,8 +309,8 @@ public class MainActivity extends AppCompatActivity {
         jsonObject.put("timeStamp", "2017-07-20 12:41:45");
         jsonObject.put("latitude", "47.211");
         jsonObject.put("longitude", "0.21544");
-        jsonObject.put("deviceName", "Nexus");
-        jsonObject.put("userOS", "Lolipop");
+        jsonObject.put("deviceName", deviceName);
+        jsonObject.put("userOS", softwareVersion);
         jsonObject.put("userAgent", "gadiel");
         jsonObject.put("userBrowser", "chrome");
 
@@ -280,6 +346,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "Login Response: " + response.toString());
                 hideDialog();
                 handshake = response.toString();
+                Log.i("MainActivity ", "The handshake is: " + handshake);
 
                 try {
 
@@ -378,8 +445,11 @@ public class MainActivity extends AppCompatActivity {
                         //uIHeader must be incoded to base64 after we have the object combine authName and authToken
                         byte[] encodeValueWHS = Base64.encode(headerContainerWithoutHS.getBytes(), Base64.DEFAULT);
 
-                        headers.put("ui-Header", headerContainerWithoutHS);
-                        Log.i("MainActivity", "Encode uiHeader with only "+ headerContainerWithoutHS);
+                        String headerContainerWithTwo = Base64.encodeToString(encodeValueWHS, Base64.NO_WRAP);
+
+
+                        headers.put("ui-Header", headerContainerWithTwo);
+                        Log.i("MainActivity", "Encode uiHeader with only "+ headerContainerWithTwo);
 
 
                     } catch (JSONException e) {
@@ -400,16 +470,18 @@ public class MainActivity extends AppCompatActivity {
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
 
-    private void showDialog() {
-        if (!pDialog.isShowing())
-            pDialog.show();
-    }
+
 
     private void hideDialog() {
         if (pDialog.isShowing())
             pDialog.dismiss();
     }
 
+
+    private void showDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
     public void addUserContentProvider(String name, String email, String uid, String created_at) {
 
         ContentValues values = new ContentValues();
@@ -443,6 +515,12 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_retrieve) {
             Intent openRetrieve = new Intent(MainActivity.this, RetrieveData.class);
             startActivity(openRetrieve);
+            return true;
+        }
+
+        if (id == R.id.action_retrieve_image) {
+            Intent openRetrieveImage = new Intent(MainActivity.this, RetrieveImage.class);
+            startActivity(openRetrieveImage);
             return true;
         }
 

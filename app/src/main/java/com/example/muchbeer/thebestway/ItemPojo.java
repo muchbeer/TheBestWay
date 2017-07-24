@@ -6,38 +6,48 @@ package com.example.muchbeer.thebestway;
 
 public class ItemPojo {
 
-    private String itemName, itemPrice, itemLocation;
+    private String title, price, location, thumbnailUrl;
 
     public ItemPojo() {
+
+    }
+    public ItemPojo(String title, String price, String location, String thumbnailUrl) {
+        this.title = title;
+        this.price = price;
+        this.location = location;
+        this.thumbnailUrl = thumbnailUrl;
     }
 
-    public ItemPojo(String itemName, String itemPrice, String itemLocation) {
-        this.itemName = itemName;
-        this.itemLocation = itemLocation;
-        this.itemPrice = itemPrice;
+    public String getTitle() {
+        return title;
     }
 
-    public String getItemName() {
-        return itemName;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
+    public String getPrice() {
+        return price;
     }
 
-    public String getItemPrice() {
-        return itemPrice;
+    public void setPrice(String price) {
+        this.price = price;
     }
 
-    public void setItemPrice(String itemPrice) {
-        this.itemPrice = itemPrice;
+    public String getLocation() {
+        return location;
     }
 
-    public String getItemLocation() {
-        return itemLocation;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
-    public void setItemLocation(String itemLocation) {
-        this.itemLocation = itemLocation;
+    public String getThumbnailUrl() {
+        return thumbnailUrl;
     }
+
+    public void setThumbnailUrl(String thumbnailUrl) {
+        this.thumbnailUrl = thumbnailUrl;
+    }
+
 }

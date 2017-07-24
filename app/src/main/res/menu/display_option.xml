@@ -8,12 +8,19 @@
     <item
         android:id="@+id/action_search"
         android:title="Search"
-        android:orderInCategory="100"
+        android:orderInCategory="101"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_retrieve"
         android:title="Retrieve Data"
-        android:orderInCategory="100"
+        android:orderInCategory="102"
+        app:showAsAction="never" />
+
+
+    <item
+        android:id="@+id/action_retrieve_image"
+        android:title="Retrieve Image Data"
+        android:orderInCategory="103"
         app:showAsAction="never" />
 </menu>

@@ -24,10 +24,12 @@ public class AppConfig {
     public static String URL_LOGIN_URLCONNECTION = "http://32d3b373.ngrok.io/talking/login.inc.php";
 
     // Server user Webby url
+    //http://192.168.43.124:8080/_AIOUI/matrix/neo.php
+    //http://aioweb.azurewebsites.net/matrix/neo.php
     public static String URL_LOGIN_WEB = "http://192.168.43.124:8080/_AIOUI/matrix/neo.php";
 
     // Server user Webby url
-    public static String URL_LOGIN_WEB_HEADER = "http://32d3b373.ngrok.io/restapi/v1/login";
+    public static String URL_LOGIN_WEB_HEADER = "http://aioweb.azurewebsites.net/";
 
 
     // Server user register url
@@ -37,7 +39,8 @@ public class AppConfig {
     public static String URL_SENDREGION = "http://32d3b373.ngrok.io/datacollect/sendregiontoserver.php";
 
     //Url for auto collect data from the server
-    public static String URL_COLLECT_DATA = "http://32d3b373.ngrok.io/datacollect";
+    public static String URL_COLLECT_DATA ="http://192.168.43.220/user/muchbeer.json";
+
 
     //Url for auto collect data from the server
     public static String URL_COLLECT_DATA_ONLINE = "http://gdgexpertz.000webhostapp.com";
