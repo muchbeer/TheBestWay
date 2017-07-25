@@ -28,12 +28,15 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+
+
 import com.example.muchbeer.thebestway.retrieve.RetrieveData;
 import com.example.muchbeer.thebestway.retrieve.RetrieveImage;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -345,7 +348,23 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 Log.d(TAG, "Login Response: " + response.toString());
                 hideDialog();
+
                 handshake = response.toString();
+
+
+           //Method to decode this JWT
+                try {
+                    decodeJWT(response);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                String[] jwtToken = response.split("\\.");
+
+
+             /*   JSONObject jwtPayload = Json.createReader(
+                        new ByteArrayInputStream(Base64.decode(jwtToken[1])))
+                        .readObject();*/
+
                 Log.i("MainActivity ", "The handshake is: " + handshake);
 
                 try {
@@ -527,4 +546,24 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    public static void decodeJWT(String JWTEncoded) throws Exception {
+        try {
+            String[] split = JWTEncoded.split("\\.");
+
+
+            Log.d("JWT_DECODED", "Header: " + getJson(split[0]));
+            Log.d("JWT_DECODED", "Body: " + getJson(split[1]));
+        } catch (UnsupportedEncodingException e) {
+            //Error
+        }
+    }
+
+    private static String getJson(String strEncoded) throws UnsupportedEncodingException{
+        byte[] decodedBytes = Base64.decode(strEncoded, Base64.URL_SAFE);
+
+        String deco = decodedBytes.toString();
+        Log.i("Decode Data is: ",  deco);
+        return new String(decodedBytes, "UTF-8");
+    }
 }
