@@ -22,32 +22,36 @@ public class ItemPojo {
         return title;
     }
 
-    public void setTitle(String title) {
+    public String setTitle(String title) {
         this.title = title;
+        return title;
     }
 
     public String getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public String setPrice(String price) {
         this.price = price;
+        return price;
     }
 
     public String getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public String setLocation(String location) {
         this.location = location;
+        return location;
     }
 
     public String getThumbnailUrl() {
         return thumbnailUrl;
     }
 
-    public void setThumbnailUrl(String thumbnailUrl) {
+    public String setThumbnailUrl(String thumbnailUrl) {
         this.thumbnailUrl = thumbnailUrl;
+        return thumbnailUrl;
     }
 
 }

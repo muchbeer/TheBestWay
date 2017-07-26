@@ -1,7 +1,10 @@
 package com.example.muchbeer.thebestway.retrieve;
 
 import android.app.ProgressDialog;
+import android.content.ContextWrapper;
+import android.graphics.Bitmap;
 import android.graphics.Movie;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -10,16 +13,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+
 import com.example.muchbeer.thebestway.AppConfig;
 import com.example.muchbeer.thebestway.AppController;
 import com.example.muchbeer.thebestway.ItemPojo;
@@ -31,6 +35,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +46,11 @@ import java.util.List;
 
 public class RetrieveImage extends AppCompatActivity {
 
-    private List<ItemPojo> itemProductList = new ArrayList<>();
+
     private ProgressDialog pDialog;
-    private RetrieveAdapter mAdapter;
+    private RetrieveAdapterRecycler mAdapter;
     private RecyclerView recyclerView;
-    RequestQueue queue;
+    private List<ItemPojo> itemProductList = new ArrayList<ItemPojo>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,53 +67,50 @@ public class RetrieveImage extends AppCompatActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
-
-
-        mAdapter = new RetrieveAdapter(this, itemProductList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//Finally initializing our adapter
+        mAdapter = new RetrieveAdapterRecycler( itemProductList,this);
 
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-      //  recyclerView.setLayoutManager(mLayoutManager);
-
+        recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+
         recyclerView.setAdapter(mAdapter);
-        //Getting Instance of Volley Request Queue
-      //  queue = NetworkController.getInstance(this).getRequestQueue();
-
-
 
         try {
             retrieveDataImage();
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
     }
 
 
 
     private void retrieveDataImage() throws JSONException {
 
+
   // Tag used to cancel the request
     String tag_string_req = "req_login";
         pDialog.setMessage("Fetching data ...");
     showDialog();
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+         JsonArrayRequest strReq = new JsonArrayRequest(AppConfig.URL_COLLECT_DATA, new Response.Listener<JSONArray>() {
 
-        JsonArrayRequest strReq = new JsonArrayRequest(AppConfig.URL_COLLECT_DATA, new Response.Listener<JSONArray>() {
 
+             public void setUrl(final String url) {
+
+             }
         @Override
         public void onResponse(JSONArray response) {
             Log.d("RetrieveImage", "Login Response: " + response.toString());
             hideDialog();
 
-            Log.i("RetrieveImage", "Login Response is: " + response);
+          //  Log.i("RetrieveImage", "Login Response is: " + response);
 
             try {
-                if (response.length() > 0) {
-                    itemProductList.clear();
-                    for (int i = 0; i < response.length(); i++) {
+
+                     for (int i = 0; i < response.length(); i++) {
                         JSONObject jsonObject = response.getJSONObject(i);
                         ItemPojo itemProduct = new ItemPojo();
 
@@ -113,22 +118,25 @@ public class RetrieveImage extends AppCompatActivity {
                         itemProduct.setThumbnailUrl(jsonObject.getString("image"));
                         itemProduct.setPrice(jsonObject.getString("title"));
                         itemProduct.setLocation(jsonObject.getString("title"));
-                      /*  if (!jsonObject.isNull("name")) {
-                            person.name = jsonObject.getString("name");
-                        }
-                        if (!jsonObject.isNull("age")) {
-                            person.age = jsonObject.getInt("age");
-                        }*/
 
-                      //  Log.i("ImageData is: ",itemProduct.setThumbnailUrl(jsonObject.getString("image"));
+                         String titleDisplay = itemProduct.setTitle(jsonObject.getString("title"));
+                         String imageDisplay = itemProduct.setThumbnailUrl(jsonObject.getString("image"));
+                         String title2 =  itemProduct.setPrice(jsonObject.getString("title")) ;
+                         String title3 =   itemProduct.setLocation(jsonObject.getString("title"));
 
-                        itemProductList.add(i, itemProduct);
+                         Log.i("title Display ", titleDisplay);
+                         Log.i("ImageDisplay ", imageDisplay);
+                         Log.i("title2: ", title2);
+                         Log.i("title3: ", title3);
+                        itemProductList.add(itemProduct);
                     }
-                    mAdapter.notifyDataSetChanged();
-                }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+// notifying list adapter about data changes
+            // so that it renders the list view with updated data
+            mAdapter.notifyDataSetChanged();
         }
     }, new Response.ErrorListener() {
 
@@ -141,20 +149,86 @@ public class RetrieveImage extends AppCompatActivity {
         }
     });
 
-
-      //  requestQueue.add(strReq);
-
-        //Adding request to the queue
-      //  requestQueue.add(strReq);
-    // Adding request to request queue
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
       //  NetworkController.getInstance(this).getRequestQueue();
-      //  queue = NetworkController.getInstance(this).getRequestQueue();
+     }
 
+
+public void downloadImage() {
+    // Initialize a new ImageRequest
+    ImageRequest imageRequest = new ImageRequest(
+            AppConfig.URL_COLLECT_DATA, // Image URL
+            new Response.Listener<Bitmap>() { // Bitmap listener
+                @Override
+                public void onResponse(Bitmap response) {
+                    // Do something with response
+                    //mImageView display image downloaded from the server
+                  //  mImageView.setImageBitmap(response);
+
+                    // Save this downloaded bitmap to internal storage
+                    Uri uri = saveImageToInternalStorage(response);
+
+                    // Display the internal storage saved image to image view
+                    //mImageViewInternal is the ImageView View obtained locally
+                  //  mImageViewInternal.setImageURI(uri);
+                }
+            },
+            0, // Image width
+            0, // Image height
+            ImageView.ScaleType.CENTER_CROP, // Image scale type
+            Bitmap.Config.RGB_565, //Image decode configuration
+            new Response.ErrorListener() { // Error listener
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    // Do something with error response
+                    error.printStackTrace();
+
+                Log.d("ImageError: ", error.getMessage());
+                }
+            }
+    );
+}
+
+
+    // Custom method to save a bitmap into internal storage
+    protected Uri saveImageToInternalStorage(Bitmap bitmap){
+        // Initialize ContextWrapper
+        ContextWrapper wrapper = new ContextWrapper(getApplicationContext());
+
+        // Initializing a new file
+        // The bellow line return a directory in internal storage
+        File file = wrapper.getDir("Images",MODE_PRIVATE);
+
+        // Create a file to save the image
+        file = new File(file, "UniqueFileName"+".jpg");
+
+        try{
+            // Initialize a new OutputStream
+            OutputStream stream = null;
+
+            // If the output file exists, it can be replaced or appended to it
+            stream = new FileOutputStream(file);
+
+            // Compress the bitmap
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream);
+
+            // Flushes the stream
+            stream.flush();
+
+            // Closes the stream
+            stream.close();
+
+        }catch (IOException e) // Catch the exception
+        {
+            e.printStackTrace();
+        }
+
+        // Parse the gallery image url to uri
+        Uri savedImageURI = Uri.parse(file.getAbsolutePath());
+
+        // Return the saved image Uri
+        return savedImageURI;
     }
-
-
-
     @Override
     public void onDestroy() {
         super.onDestroy();
