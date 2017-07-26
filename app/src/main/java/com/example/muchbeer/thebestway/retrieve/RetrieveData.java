@@ -38,7 +38,7 @@ public class RetrieveData extends AppCompatActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
-        mAdapter = new RetrieveAdapter(itemProduct);
+        mAdapter = new RetrieveAdapter(this, itemProduct);
 
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());

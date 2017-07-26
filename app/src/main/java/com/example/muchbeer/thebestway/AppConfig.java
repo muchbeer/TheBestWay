@@ -39,7 +39,7 @@ public class AppConfig {
     public static String URL_SENDREGION = "http://32d3b373.ngrok.io/datacollect/sendregiontoserver.php";
 
     //Url for auto collect data from the server
-    public static String URL_COLLECT_DATA ="http://192.168.43.220/user/muchbeer.json";
+    public static String URL_COLLECT_DATA ="https://api.androidhive.info/json/movies.json";
 
 
     //Url for auto collect data from the server

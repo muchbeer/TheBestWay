@@ -24,9 +24,21 @@ public class SuccessPage extends AppCompatActivity {
         displayData =(TextView) findViewById(R.id.txt_name);
 String ourTokenIs = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3d3cuYWlvdWkuY28udHoiLCJleHAiOjEzMDA4MTkzODAsInVpU3RhdGUiOnsiZnVsbE5hbWUiOiJXZWJieXN0YXIgTi4gTW56YXZhIiwidXNlclBpYyI6Ik1hbGUuZ2lmIiwidXNlckJpcnRoZGF0ZSI6IjIwMTctMDItMDYiLCJ1c2VyR2VuZGVyIjoiTWFsZSIsInBob25lTnVtYmVyIjoiMjU1NzE1MDE1NzU5IiwidXNlckRhdGVkIjoiMjAxNy0wNS0wNiAwMDo1MjoyMyIsInBhc3NXb3JkU2VjdXJlZCI6dHJ1ZSwib25saW5lU3RhdGUiOjEsImRpdk5hbWUiOiJBSU8gLSBIUSIsImNvbXBOYW1lIjoiQUlPVUkiLCJjb21wTG9nbyI6ImRlZmF1bHQuanBnIiwicm9sZU5hbWUiOiJTeXN0ZW0gVGVjaG5pY2lhbnMiLCJ1aVJvbGVTdGF0ZSI6InRlY2hTdGF0ZSIsImNvbXBsb2NhdGlvbiI6IkFydXNoYSwgVGFuemFuaWEsIFVuaXRlZCBSZXB1YmxpYyBvZiIsInNlY0Jsb2NrIjoiOSIsInNlY1Njb3BlIjoxLCJzZWNTcGFuIjoxLCJpc0F1dGhlbnRpY2F0ZWQiOnRydWV9fQ.sIuP8m-8f5MPFVO8f_xtC1i2iMzTjypZ1grpfqWUDsY";
 String receiveToken = getPayload(ourTokenIs);
+        JSONObject readWebbyName, insideState;
+        String readName = null;
+        try {
+           readWebbyName  = new JSONObject(receiveToken);
+            insideState = readWebbyName.getJSONObject("uiState");
+            readName = insideState.getString("fullName");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
         Log.d( "Our data decrypt is: ", receiveToken );
 
-        displayData.setText(receiveToken);
+        displayData.setText("Mr. " + readName);
     }
 
     /**
