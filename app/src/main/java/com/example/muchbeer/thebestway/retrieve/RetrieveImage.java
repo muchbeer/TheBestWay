@@ -12,6 +12,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -31,6 +32,7 @@ import com.example.muchbeer.thebestway.ItemPojo;
 import com.example.muchbeer.thebestway.R;
 import com.example.muchbeer.thebestway.util.NetworkController;
 import com.example.muchbeer.thebestway.util.RetrieveAdapterImage;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -79,7 +81,7 @@ public class RetrieveImage extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+       recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         mAdapter = new RetrieveAdapterRecycler(this, itemProductList, new CustomItemClickListener() {
@@ -194,6 +196,27 @@ public class RetrieveImage extends AppCompatActivity {
      }
 
 
+    public void getImage(String url, final ImageView v) {
+        if (TextUtils.isEmpty(url))
+        {
+            Picasso.with(this).load(R.drawable.recycler).into(v);
+            return; // don't fetch a null url
+        }
+
+        ImageRequest imageRequest = new ImageRequest(url, new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap response) {
+                v.setImageBitmap(response);
+            }
+        }, 0, 0, null, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Error- " + error.getMessage());
+            }
+        });
+
+        AppController.getInstance().addToRequestQueue(imageRequest);
+    }
 public Bitmap downloadImage() {
 
     // Initialize a new ImageRequest
