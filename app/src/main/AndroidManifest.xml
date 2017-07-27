@@ -20,9 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".retrieve.RetrieveData" />
-        <activity android:name=".retrieve.RetrieveImage"></activity>
+        <activity android:name=".retrieve.RetrieveImage" />
+        <activity android:name=".retrieve.DetailActivity"></activity>
     </application>
 
 </manifest>

@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -43,14 +44,19 @@ import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.R.attr.data;
+
 
 public class RetrieveImage extends AppCompatActivity {
 
 
+    private static final String TAG = "RetrieveImage debug" ;
     private ProgressDialog pDialog;
     private RetrieveAdapterRecycler mAdapter;
     private RecyclerView recyclerView;
-    private List<ItemPojo> itemProductList = new ArrayList<ItemPojo>();
+     ArrayList<ItemPojo> itemProductList = new ArrayList<ItemPojo>();
+    public String imageDisplayToUrl = null;
+    public Bitmap getfromUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +74,7 @@ public class RetrieveImage extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
 //Finally initializing our adapter
-        mAdapter = new RetrieveAdapterRecycler( itemProductList,this);
+      //  mAdapter = new RetrieveAdapterRecycler(th itemProductList,this);
 
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -76,8 +82,42 @@ public class RetrieveImage extends AppCompatActivity {
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
+        mAdapter = new RetrieveAdapterRecycler(this, itemProductList, new CustomItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                Log.d(TAG, "clicked position:" + position);
+                String title = itemProductList.get(position).getTitle();
+                Toast.makeText(getApplicationContext(),title + " is selected!", Toast.LENGTH_SHORT).show();
+
+                //Fucking get the item long ID needed for the content Provider
+             //  long postId = itemProductList.get(position).getID();
+                // do what ever you want to do with it
+
+            }
+        });
         recyclerView.setAdapter(mAdapter);
 
+
+   /*     recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(),
+
+                recyclerView, new RecyclerTouchListener.ClickListener() {
+
+
+
+            @Override
+            public void onClick(View view, int position) {
+                ItemPojo itemProductSelect = itemProductList.get(position);
+
+            //    long postId = itemProductList.get(position).getID;
+
+                Toast.makeText(getApplicationContext(), itemProductSelect.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));*/
         try {
             retrieveDataImage();
         } catch (JSONException e) {
@@ -120,12 +160,12 @@ public class RetrieveImage extends AppCompatActivity {
                         itemProduct.setLocation(jsonObject.getString("title"));
 
                          String titleDisplay = itemProduct.setTitle(jsonObject.getString("title"));
-                         String imageDisplay = itemProduct.setThumbnailUrl(jsonObject.getString("image"));
+                        imageDisplayToUrl= itemProduct.setThumbnailUrl(jsonObject.getString("image"));
                          String title2 =  itemProduct.setPrice(jsonObject.getString("title")) ;
                          String title3 =   itemProduct.setLocation(jsonObject.getString("title"));
 
                          Log.i("title Display ", titleDisplay);
-                         Log.i("ImageDisplay ", imageDisplay);
+                         Log.i("ImageDisplay ", imageDisplayToUrl);
                          Log.i("title2: ", title2);
                          Log.i("title3: ", title3);
                         itemProductList.add(itemProduct);
@@ -154,10 +194,11 @@ public class RetrieveImage extends AppCompatActivity {
      }
 
 
-public void downloadImage() {
+public Bitmap downloadImage() {
+
     // Initialize a new ImageRequest
     ImageRequest imageRequest = new ImageRequest(
-            AppConfig.URL_COLLECT_DATA, // Image URL
+            imageDisplayToUrl, // Image URL
             new Response.Listener<Bitmap>() { // Bitmap listener
                 @Override
                 public void onResponse(Bitmap response) {
@@ -165,6 +206,7 @@ public void downloadImage() {
                     //mImageView display image downloaded from the server
                   //  mImageView.setImageBitmap(response);
 
+                    getfromUrl = response;
                     // Save this downloaded bitmap to internal storage
                     Uri uri = saveImageToInternalStorage(response);
 
@@ -187,6 +229,8 @@ public void downloadImage() {
                 }
             }
     );
+
+    return getfromUrl;
 }
 
 
