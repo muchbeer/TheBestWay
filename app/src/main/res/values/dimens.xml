@@ -5,4 +5,5 @@
     <dimen name="price">15dip</dimen>
     <dimen name="location">13dip</dimen>
     <dimen name="year">12dip</dimen>
+    <dimen name="ic_clear_margin">16dp</dimen>
 </resources>
