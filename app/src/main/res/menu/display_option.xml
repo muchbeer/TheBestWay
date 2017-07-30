@@ -23,4 +23,10 @@
         android:title="Retrieve Image Data"
         android:orderInCategory="103"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_firebase_message"
+        android:title="Send Notification"
+        android:orderInCategory="104"
+        app:showAsAction="never" />
 </menu>

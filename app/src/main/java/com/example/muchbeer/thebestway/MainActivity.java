@@ -35,6 +35,7 @@ import com.android.volley.toolbox.StringRequest;
 
 import com.example.muchbeer.thebestway.retrieve.RetrieveData;
 import com.example.muchbeer.thebestway.retrieve.RetrieveImage;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,6 +72,21 @@ public class MainActivity extends AppCompatActivity {
         // Find the toolbar view inside the activity layout
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
          setSupportActionBar(toolbar);
+
+
+
+        // ADD THESE LINES
+        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance( this );
+        analytics.setUserProperty( "profession", "string for profession" );
+
+        //Sets whether analytics collection is enabled for this app on this device.
+        analytics.setAnalyticsCollectionEnabled(true);
+
+        //Sets the minimum engagement time required before starting a session. The default value is 10000 (10 seconds). Let's make it 20 seconds just for the fun
+        analytics.setMinimumSessionDuration(20000);
+
+        //Sets the duration of inactivity that terminates the current session. The default value is 1800000 (30 minutes).
+        analytics.setSessionTimeoutDuration(500);
 
         telephonyManager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
 
@@ -518,9 +534,7 @@ public class MainActivity extends AppCompatActivity {
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
 
-
-
-    private void hideDialog() {
+ private void hideDialog() {
         if (pDialog.isShowing())
             pDialog.dismiss();
     }
@@ -569,6 +583,12 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_retrieve_image) {
             Intent openRetrieveImage = new Intent(MainActivity.this, RetrieveImage.class);
             startActivity(openRetrieveImage);
+            return true;
+        }
+
+        if (id == R.id.action_firebase_message) {
+            Intent openFireBaseMessage = new Intent(MainActivity.this, FirebaseActivity.class);
+            startActivity(openFireBaseMessage);
             return true;
         }
 

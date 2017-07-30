@@ -1,0 +1,133 @@
+{
+  "project_info": {
+    "project_number": "155760460865",
+    "firebase_url": "https://ukawa-b0f1e.firebaseio.com",
+    "project_id": "ukawa-b0f1e",
+    "storage_bucket": "ukawa-b0f1e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:155760460865:android:ab2b2e476b64dbb7",
+        "android_client_info": {
+          "package_name": "sokohuru.muchbeer.king.sokohuruhidescrollbar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "155760460865-55ohp06vl41eabq2to3nla9ajk3siqa1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "sokohuru.muchbeer.king.sokohuruhidescrollbar",
+            "certificate_hash": "3170137ca4c9b239dce4ac6de3c9e3aa75205561"
+          }
+        },
+        {
+          "client_id": "155760460865-a1q28393t84rsk7nkc2mqrc7d426ahoe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlefBNFy1D1YJjIF6lwKpDr4j3wpY-LWM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "<your tracking id>"
+          }
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "155760460865-a1q28393t84rsk7nkc2mqrc7d426ahoe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:155760460865:android:00695377625f1c41",
+        "android_client_info": {
+          "package_name": "sokohuru.muchbeer.king.udacityfirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "155760460865-eohr9lihu95a6ggt2i5belo53tuc0qav.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "sokohuru.muchbeer.king.udacityfirebase",
+            "certificate_hash": "3170137ca4c9b239dce4ac6de3c9e3aa75205561"
+          }
+        },
+        {
+          "client_id": "155760460865-a1q28393t84rsk7nkc2mqrc7d426ahoe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlefBNFy1D1YJjIF6lwKpDr4j3wpY-LWM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "155760460865-a1q28393t84rsk7nkc2mqrc7d426ahoe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:155760460865:android:0b75142100831320",
+        "android_client_info": {
+          "package_name": "com.example.muchbeer.thebestway"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "155760460865-a1q28393t84rsk7nkc2mqrc7d426ahoe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlefBNFy1D1YJjIF6lwKpDr4j3wpY-LWM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

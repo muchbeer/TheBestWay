@@ -32,6 +32,7 @@ import com.example.muchbeer.thebestway.ItemPojo;
 import com.example.muchbeer.thebestway.R;
 import com.example.muchbeer.thebestway.util.NetworkController;
 import com.example.muchbeer.thebestway.util.RetrieveAdapterImage;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -95,12 +96,22 @@ public class RetrieveImage extends AppCompatActivity {
              //  long postId = itemProductList.get(position).getID();
                 // do what ever you want to do with it
 
+                Bundle params = new Bundle();
+
+               params.putString( FirebaseAnalytics.Param.ITEM_ID, title );
+              //  params.putString( FirebaseAnalytics.Param.ITEM_CATEGORY, "icon" );
+              //  params.putLong( FirebaseAnalytics.Param.VALUE, mItem.mPrice );
+                FirebaseAnalytics analytics = FirebaseAnalytics.getInstance( RetrieveImage.this );
+                analytics.logEvent( FirebaseAnalytics.Event.ADD_TO_CART, params );
+
             }
         });
         recyclerView.setAdapter(mAdapter);
 
 
-   /*     recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(),
+        //Handle delete onlong press
+
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(),
 
                 recyclerView, new RecyclerTouchListener.ClickListener() {
 
@@ -108,18 +119,24 @@ public class RetrieveImage extends AppCompatActivity {
 
             @Override
             public void onClick(View view, int position) {
-                ItemPojo itemProductSelect = itemProductList.get(position);
 
-            //    long postId = itemProductList.get(position).getID;
+                //    long postId = itemProductList.get(position).getID;
 
-                Toast.makeText(getApplicationContext(), itemProductSelect.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onLongClick(View view, int position) {
+                ItemPojo itemProductSelect = itemProductList.get(position);
+                String title2 = itemProductList.get(position).getTitle();
+                Toast.makeText(getApplicationContext(), title2 + " Long press is selected!", Toast.LENGTH_SHORT).show();
+
+                // ADD THESE LINES
+                Bundle params = new Bundle();
+                params.putString( FirebaseAnalytics.Param.VALUE, "12");
+                FirebaseAnalytics.getInstance( RetrieveImage.this ).logEvent( FirebaseAnalytics.Event.ECOMMERCE_PURCHASE, params );
 
             }
-        }));*/
+        }));
         try {
             retrieveDataImage();
         } catch (JSONException e) {

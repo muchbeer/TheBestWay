@@ -10,8 +10,9 @@
         android:id="@+id/thumbnail"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginRight="8dp" />
+        android:layout_alignParentStart="true" />
 
     <!-- Movie Title -->
     <TextView
@@ -21,37 +22,55 @@
         android:layout_alignTop="@+id/thumbnail"
         android:layout_toRightOf="@+id/thumbnail"
         android:textSize="@dimen/itemname"
+        android:text="dsoos"
         android:textStyle="bold" />
 
     <!-- Rating -->
     <TextView
         android:id="@+id/location"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/title"
-        android:layout_marginTop="1dip"
-        android:layout_toRightOf="@+id/thumbnail"
-        android:textSize="@dimen/price" />
+        android:text="dsoos"
+        android:textSize="@dimen/price"
+        android:layout_below="@+id/title"
+        android:layout_alignLeft="@+id/title"
+        android:layout_alignStart="@+id/title" />
 
     <!-- Genre -->
     <TextView
         android:id="@+id/price"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/location"
         android:layout_marginTop="5dp"
+       android:text="dsoos"
         android:layout_toRightOf="@+id/thumbnail"
         android:textColor="@color/location"
         android:textSize="@dimen/location" />
 
-  <!--  &lt;!&ndash; Release Year &ndash;&gt;
-    <TextView
-        android:id="@+id/releaseYear"
+    <Button
+        android:id="@+id/undo_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:text="@string/button_undo"
+
+        android:textAllCaps="true"
+        android:textColor="@android:color/white"
+        android:layout_centerVertical="true"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+
         android:layout_alignParentRight="true"
-        android:textColor="@color/year"
-        android:textSize="@dimen/year" -->/>
+        android:layout_alignParentEnd="true" />
+
+
+    <!--  &lt;!&ndash; Release Year &ndash;&gt;
+      <TextView
+          android:id="@+id/releaseYear"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentBottom="true"
+          android:layout_alignParentRight="true"
+          android:textColor="@color/year"
+          android:textSize="@dimen/year" -->/>
 
 </RelativeLayout>

@@ -13,16 +13,38 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <!-- Firebase Notifications -->
+<activity android:name=".MainActivity">
+
+    <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+    </intent-filter>
+</activity>
         <activity android:name=".retrieve.RetrieveData" />
         <activity android:name=".retrieve.RetrieveImage" />
-        <activity android:name=".retrieve.DetailActivity"></activity>
+        <activity android:name=".retrieve.DetailActivity" />
+        <activity android:name=".FirebaseActivity" />
+
+        <!-- FirebaseInstanceIdService performs security checks at runtime,
+      no need for explicit permissions despite exported="true"
+
+                  -->
+        <service
+            android:name=".MyFirebaseInstanceIDService" android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
+
+        <service
+            android:name=".MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
