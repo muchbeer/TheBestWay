@@ -5,7 +5,6 @@ import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Movie;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -25,9 +24,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
@@ -37,8 +33,6 @@ import com.example.muchbeer.thebestway.AppConfig;
 import com.example.muchbeer.thebestway.AppController;
 import com.example.muchbeer.thebestway.ItemPojo;
 import com.example.muchbeer.thebestway.R;
-import com.example.muchbeer.thebestway.util.NetworkController;
-import com.example.muchbeer.thebestway.util.RetrieveAdapterImage;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.squareup.picasso.Picasso;
 
@@ -50,11 +44,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
-import java.util.List;
-
-import static android.R.attr.data;
 
 
 public class RetrieveImage extends AppCompatActivity {

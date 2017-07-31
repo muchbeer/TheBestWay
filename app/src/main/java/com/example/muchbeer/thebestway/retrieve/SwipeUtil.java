@@ -42,7 +42,7 @@ public class SwipeUtil extends ItemTouchHelper.SimpleCallback {
         background = new ColorDrawable();
         xMarkMargin = (int) context.getResources().getDimension(R.dimen.ic_clear_margin);
        // xMark = ContextCompat.getDrawable(RetrieveImage.this, R.drawable.ic_clear_24dp);
-       // deleteIcon = ContextCompat.getDrawable(context, android.R.drawable.ic_menu_delete);
+        deleteIcon = ContextCompat.getDrawable(context, android.R.drawable.ic_menu_delete);
         deleteIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
         initiated = true;
     }

@@ -343,6 +343,7 @@ public class MainActivity extends AppCompatActivity {
             final String uiHeader,
             final String email, final String password) throws JSONException {
 
+
         String IMEINumber=telephonyManager.getDeviceId();
         String SIMSerialNumber=telephonyManager.getSimSerialNumber();
         String softwareVersion=telephonyManager.getDeviceSoftwareVersion();
@@ -381,7 +382,15 @@ public class MainActivity extends AppCompatActivity {
         // Tag used to cancel the request
         String tag_string_req = "req_login";
 //String URL_TEST = "http://pastebin.com/raw/2bW31yqa";
+
+      //  final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
+      //          R.style.AppTheme_Dark_Dialog);
+        pDialog.setIndeterminate(true);
+       // progressDialog.setMessage("Authenticating...");
+
         pDialog.setMessage("Logging in ...");
+        btnLogin.setEnabled(false);
+
         showDialog();
 
 
@@ -534,7 +543,12 @@ public class MainActivity extends AppCompatActivity {
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
 
+    public void onLoginSuccess() {
+        btnLogin.setEnabled(true);
+        finish();
+    }
  private void hideDialog() {
+     btnLogin.setEnabled(true);
         if (pDialog.isShowing())
             pDialog.dismiss();
     }
