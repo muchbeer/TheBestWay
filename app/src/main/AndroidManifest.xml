@@ -15,36 +15,37 @@
         android:theme="@style/AppTheme">
 
         <!-- Firebase Notifications -->
-<activity android:name=".MainActivity">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-    <intent-filter>
-        <action android:name="android.intent.action.MAIN" />
-        <category android:name="android.intent.category.LAUNCHER" />
-    </intent-filter>
-</activity>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".retrieve.RetrieveData" />
         <activity android:name=".retrieve.RetrieveImage" />
         <activity android:name=".retrieve.DetailActivity" />
         <activity android:name=".FirebaseActivity" />
 
-        <!-- FirebaseInstanceIdService performs security checks at runtime,
+        <!--
+      FirebaseInstanceIdService performs security checks at runtime,
       no need for explicit permissions despite exported="true"
-
-                  -->
+        -->
         <service
-            android:name=".MyFirebaseInstanceIDService" android:exported="true">
+            android:name=".MyFirebaseInstanceIDService"
+            android:exported="true">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-
-        <service
-            android:name=".MyFirebaseMessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-            </intent-filter>
-        </service>
+        <activity android:name=".twopanel.TwoPanelActivity" />
+        <activity android:name=".retrieve.TwoPaneActivity"></activity>
     </application>
 
 </manifest>

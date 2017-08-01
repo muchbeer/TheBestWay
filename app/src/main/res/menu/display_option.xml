@@ -29,4 +29,10 @@
         android:title="Send Notification"
         android:orderInCategory="104"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_fragment_panel"
+        android:title="Open Fragment "
+        android:orderInCategory="105"
+        app:showAsAction="never" />
 </menu>

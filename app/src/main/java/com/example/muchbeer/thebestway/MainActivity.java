@@ -35,6 +35,7 @@ import com.android.volley.toolbox.StringRequest;
 
 import com.example.muchbeer.thebestway.retrieve.RetrieveData;
 import com.example.muchbeer.thebestway.retrieve.RetrieveImage;
+import com.example.muchbeer.thebestway.retrieve.TwoPaneActivity;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.json.JSONException;
@@ -603,6 +604,11 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_firebase_message) {
             Intent openFireBaseMessage = new Intent(MainActivity.this, FirebaseActivity.class);
             startActivity(openFireBaseMessage);
+            return true;
+        }
+        if (id == R.id.action_fragment_panel) {
+            Intent openFragmentPanel = new Intent(MainActivity.this, TwoPaneActivity.class);
+            startActivity(openFragmentPanel);
             return true;
         }
 
